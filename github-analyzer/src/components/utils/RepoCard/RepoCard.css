@@ -1,4 +1,4 @@
-.repoCard-container{
+.repoCard-container {
     background-color: #ffffff0f;
     border-radius: 10px;
     min-height: 200px;
@@ -6,13 +6,76 @@
     padding: 10px 20px;
 }
 
-.repo-name a{
+.repo-name a {
     text-decoration: none;
     color: #2374e6;
     font-size: 20px;
 }
 
-.repo-description{
+.repo-description {
     color: #fff;
     margin-block: 10px;
+}
+
+.repo-visualize-counts{
+    display: flex;
+    gap: 30px;
+    color: #fff;
+}
+
+.counts{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.color-pink{
+    background-color: #bf26d332;
+    color: #bf26d3; 
+}
+
+.color-green{
+    background-color: #22c55e32;
+    color: #22c55e;
+}
+
+.color-blue{
+    background-color: #0284c732;
+    color: #0284c7;
+}
+
+.color-red{
+    background-color: #db277732;
+    color: #db2777;
+}
+
+.color-yellow{
+    background-color: #f59e0b32;
+    color: #f59e0b;
+}
+
+.topics-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-block: 10px;
+}
+
+.topics{
+    padding: 10px 20px;
+    border-radius: 50px;
+}
+
+.link{
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .repo-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }

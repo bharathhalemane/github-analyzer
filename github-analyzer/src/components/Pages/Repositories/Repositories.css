@@ -1,8 +1,64 @@
-.repos-list-container{
+.repos-list-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     list-style: none;    
+}
 
+.no-repos-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    min-height: 80vh;
+    color: #fff;
+}
+
+.success-view .heading{
+    color: #fff;
+    margin: 20px;
+    margin-left: 10vw;
+}
+.failure-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    color: #fff;
+    gap: 30px;
+}
+
+.failure-view button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+@media (max-width: 480px) {
+    .no-repos-data img {
+        width: 200px;
+    }
+
+    .no-repos-data h1 {
+        font-size: 20px;
+    }
+    .success-view .heading{
+        font-size: 20px;
+        margin: 20px;
+    }
+    .failure-view p {
+        text-align: center;
+        width: 300px;
+        font-size: 15px;        
+    }
+
+    .failure-view h1 {
+        font-size: 20px;
+    }
 }

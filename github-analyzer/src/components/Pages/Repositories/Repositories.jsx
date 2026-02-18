@@ -4,12 +4,20 @@ import Cookies from "js-cookie"
 import { useState, useEffect } from "react"
 import { Octokit } from "@octokit/rest"
 import RepoCard from '../../utils/RepoCard/RepoCard'
+import { TailSpin } from 'react-loader-spinner'
+import { Link } from 'react-router-dom'
 import './Repositories.css'
 
+const apiProgress = {
+    success: "SUCCESS",
+    failure: "FAILURE",
+    loading: "LOADING"
+}
 
-const Repositories = () => {
+const Repositories = ({username}) => {
     const [reposData, setReposData] = useState([])    
-    const username = Cookies.get("username")
+    // const username = Cookies.get("username")
+    const [progress, setProgress]= useState(apiProgress.loading)
     const octokit = new Octokit()   
 
     const formattedData = data => {
@@ -27,6 +35,7 @@ const Repositories = () => {
 
     const getReposData = async () => {
         try {            
+            setProgress(apiProgress.loading)
             const response = await octokit.request('GET /users/{username}/repos', {
                 username: username
             })            
@@ -34,24 +43,43 @@ const Repositories = () => {
                 console.log(response.data)
                 const data = response.data.map(each => formattedData(each))
                 setReposData(data)
+                setProgress(apiProgress.success)
                 console.log(data)
             }else{
                 console.log("error")
+                setProgress(apiProgress.failure)
             }
         } catch (err) {
             console.log(err)
+            setProgress(apiProgress.failure)
         }
     }
 
     useEffect(() => {
+        if (!username) {
+            return setProgress(apiProgress.failure)
+        }
         getReposData()
     },[])
 
+    const loader = () => {
+            return <div className='loader'>
+                <TailSpin
+                    height="40"
+                    width="40"
+                    color="#3b82f6"
+                    ariaLabel="tail-spin-loading"
+                    visible={true}
+                />
+            </div>
+    }
 
-    return (
-        <div>
-            <Header activeId="repositories" />
-            <ul className='repos-list-container'>
+    const successView = () => {
+        return <div className='success-view'>            
+            {
+                reposData.length > 0 ? <>
+                    <h1 className='heading'>Repositories</h1>
+                    <ul className='repos-list-container'>
                 {
                     reposData.map(repo => (
                         <li key={repo.id}>
@@ -59,7 +87,38 @@ const Repositories = () => {
                         </li>
                     ))
                 }
-            </ul>
+                    </ul></> : <div className='no-repos-data'>
+                        <img src="https://res.cloudinary.com/dfomcgwro/image/upload/v1771441453/Layer_3_ctljs4.png" alt="no data"/>
+                        <h1>No Repositories Found</h1>
+            </div>
+            }
+        </div>
+    }
+
+    const failureView = () => {
+        return <div className='failure-view'>
+            <img src='https://res.cloudinary.com/dfomcgwro/image/upload/v1771441459/Empty_Box_Illustration_1_dj86g2.png' alt="failure"/>
+            <h1>No Data Found</h1>
+            <p>Github Username is empty, please provide a valid username for Repositories</p>
+            <Link to="/"><button>Go to Home</button></Link>
+        </div>
+    }
+    
+    const renderContent = () => {
+        switch (progress) {
+            case apiProgress.loading:
+                return loader()
+            case apiProgress.success:
+                return successView()
+            case apiProgress.failure:
+                return failureView()
+        }
+    }
+
+    return (
+        <div>
+            <Header activeId="repositories" />
+            {renderContent()}
         </div>
     )
 }

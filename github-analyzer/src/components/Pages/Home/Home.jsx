@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { useState, useEffect } from "react"
 import { Octokit } from "@octokit/rest"
 import { TailSpin } from 'react-loader-spinner'
-import Cookies from "js-cookie"
+// import Cookies from "js-cookie"
 
 const apiProgress = {
     start: "START",
@@ -15,27 +15,12 @@ const apiProgress = {
     offline: "OFFLINE"
 }
 
-const Home = () => {
-    const [username, setUsername] = useState("")
+const Home = ({username, setUsername}) => {
+    // const [username, setUsername] = useState("")
     const [userData, setUserData] = useState(null)
     const [progress, setProgress] = useState(apiProgress.start)
     const [error, setError] = useState("");
     const octokit = new Octokit()
-
-    useEffect(() => {
-        const handleOffline = () => setProgress(apiProgress.offline)
-
-        window.addEventListener("offline", handleOffline)
-
-        return () => {
-            window.removeEventListener("offline", handleOffline)
-        }
-    }, [])
-
-
-    const onChangeUsername = e => {
-        setUsername(e.target.value)
-    }
 
     const onSubmitUsername = async (e) => {
         e.preventDefault()
@@ -44,7 +29,6 @@ const Home = () => {
         }
         setProgress(apiProgress.loading)
         try {
-            Cookies.set("username", username, { expires: 1})
             const response = await octokit.request('GET /users/{username}', {
                 username: username
             })
@@ -80,6 +64,23 @@ const Home = () => {
         }
     }
 
+
+    useEffect(() => {
+        const handleOffline = () => setProgress(apiProgress.offline)
+
+        window.addEventListener("offline", handleOffline)
+        onSubmitUsername()
+        return () => {
+            window.removeEventListener("offline", handleOffline)
+        }
+    }, [])
+
+
+    const onChangeUsername = e => {
+        setUsername(e.target.value)
+    }
+
+    
     const startCase = () => (
         <>        <h1>Github Profile Visualizer</h1>
             <img src="https://res.cloudinary.com/dfomcgwro/image/upload/v1771268068/Group_2_ctaq2g.png" alt='' /></>
@@ -137,7 +138,7 @@ const Home = () => {
                 }
                 <li key="LOCATION" className='data-details'>
                     <h1 className='data-heading'>LOCATION</h1>
-                    <p className='data-value'><MdLocationOn /> {location}</p>
+                    <p className='data-value'><MdLocationOn /> {location? location : "not enter"}</p>
                 </li>
                 <li key="PROFILE" className='data-details'>
                     <h1 className='data-heading'>GITHUB</h1>
