@@ -13,6 +13,8 @@ const apiProgress = {
     loading: "LOADING"
 }
 
+const token = import.meta.env.VITE_GITHUB_TOKEN
+
 const Repositories = ({ username }) => {
     const [reposData, setReposData] = useState([])
     const [progress, setProgress] = useState(apiProgress.loading)
@@ -35,7 +37,8 @@ const Repositories = ({ username }) => {
         try {
             setProgress(apiProgress.loading)
             const response = await octokit.request('GET /users/{username}/repos', {
-                username: username
+                username: username,
+                auth: token
             })
             if (response.status === 200) {
                 const data = response.data.map(each => formattedData(each))

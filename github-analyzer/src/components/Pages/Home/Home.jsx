@@ -14,6 +14,8 @@ const apiProgress = {
     offline: "OFFLINE"
 }
 
+const token = import.meta.env.VITE_GITHUB_TOKEN
+
 const Home = ({ username, setUsername }) => {
     const [userInput, setUserInput] = useState("")
     const [userData, setUserData] = useState(null)
@@ -30,7 +32,8 @@ const Home = ({ username, setUsername }) => {
         setProgress(apiProgress.loading)
         try {
             const response = await octokit.request('GET /users/{username}', {
-                username: userInput
+                username: userInput,
+                auth: token
             })
             if (response.status === 200) {
                 setProgress(apiProgress.success)
@@ -67,7 +70,8 @@ const Home = ({ username, setUsername }) => {
         setProgress(apiProgress.loading)
         try {
             const response = await octokit.request('GET /users/{username}', {
-                username: username
+                username: username,
+                auth: token
             })
             if (response.status === 200) {
                 setProgress(apiProgress.success)

@@ -61,4 +61,8 @@
     .failure-view h1 {
         font-size: 20px;
     }
+
+    .failure-view img{
+        width: 250px;
+    }
 }
