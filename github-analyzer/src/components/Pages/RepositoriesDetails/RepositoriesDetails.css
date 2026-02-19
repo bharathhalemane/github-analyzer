@@ -1,0 +1,124 @@
+.repo-details-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.repository-success-view {
+    background-color: #ffffff07;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 80vw;
+    min-height: 80vh;
+    color: #fff;
+}
+
+.repo-detail-head {
+    color: #3B82F6;    
+}
+
+.count-container{
+    display: flex;
+    gap: 20px;
+}
+
+.count{
+    border: 1px solid #F8FAFC;
+    padding: 10px;
+    border-radius: 5px;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 150px;
+}
+
+.count h1{
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.count p{
+    font-size: 15px;
+}
+
+.contributors-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contributors-avatars{
+    display: flex;
+    align-items: center;
+    gap: 0;    
+}
+
+.contributors-avatars img{
+    width: 50px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.etc-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #000;
+    background-color: #F8FAFC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    font-weight: bold;
+}
+
+@media(max-width:480px){
+    .repository-success-view{
+        gap: 10px;
+    }
+    .repo-detail-head{
+        font-size: 18px;
+    }
+
+    .repo-detail-description{
+        font-size: 15px;
+    }
+    
+    .count-container{                
+        gap: 10px;
+    }
+
+    .count{
+        width: 100px;
+    }
+    
+    .contributors-avatars{
+        display: flex;
+        align-items: center;        
+    }
+        
+    .contributors-avatars img{
+        width: 30px;
+        border-radius: 50%;
+        margin: 5px;
+    }
+
+    .etc-image{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        color: #000;
+        background-color: #F8FAFC;
+        display: flex;
+        justify-content: center;
+        align-items: center;        
+        font-weight: bold;
+        margin-top: -5px;
+        margin: 5;
+    }
+}

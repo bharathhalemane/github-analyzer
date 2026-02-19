@@ -8,6 +8,9 @@ import { useState, useEffect } from "react"
 import Header from '../../utils/Header/Header'
 import { TailSpin } from "react-loader-spinner"
 
+import { FaStar, FaEye, } from "react-icons/fa";
+import { PiGitBranchBold } from "react-icons/pi";
+
 
 const apiProgress = {
     success: "SUCCESS",
@@ -18,9 +21,9 @@ const apiProgress = {
 
 const RepositoriesDetails = ({ username }) => {
     const { repoName } = useParams()
-    const [repoData, setRepoData] = useState()
-    const [contributors, setContributors] = useState()
-    const [languages, setLanguages] = useState()
+    const [repoData, setRepoData] = useState({})
+    const [contributors, setContributors] = useState([])
+    const [languages, setLanguages] = useState({})
     const [progress, setProgress] = useState(apiProgress.loading)
 
     const formattedData = data => {
@@ -29,6 +32,7 @@ const RepositoriesDetails = ({ username }) => {
             forksCount: data.forks_count,
             htmlUrl: data.html_url,
             id: data.id,
+            issuesCount : data.open_issues_count,
             name: data.name,
             stargazersCount: data.stargazers_count,
             topics: data.topics,
@@ -49,8 +53,10 @@ const RepositoriesDetails = ({ username }) => {
             const response = await fetch(url, option)
             if (response.status === 200) {
                 const data = await response.json()
+                console.log(data)
                 const formattedRepoData = formattedData(data)
                 setRepoData(formattedRepoData)
+                
             } else {
                 setProgress(apiProgress.failure)
             }
@@ -78,7 +84,8 @@ const RepositoriesDetails = ({ username }) => {
             }
             const response = await fetch(url, option)
             if (response.status === 200) {
-                const data = await response.json()
+                const data = await response.json() || []
+                console.log(data)
                 const formattedData = data.map(each => formattedContributorsData(each))
                 setContributors(formattedData)
             } else {
@@ -100,7 +107,7 @@ const RepositoriesDetails = ({ username }) => {
             }
             const response = await fetch(url, option)
             if (response.status === 200) {
-                const data = await response.json()
+                const data = await response.json() || {}
                 setLanguages(data)
                 setProgress(apiProgress.success)
             } else {
@@ -138,42 +145,114 @@ const RepositoriesDetails = ({ username }) => {
     }
 
     const successView = () => {
-        const { name } = repoData
+        if (!repoData) return null
+        const { name, description, topics, stargazersCount, forksCount, watchersCount, issuesCount} = repoData
+        const commits = contributors.reduce(
+            (acc, cur) => acc + cur.contributions,
+            0
+        )
+
+        const colorClassNames = ["color-pink", 'color-green', 'color-blue', 'color-red', 'color-yellow']
         return <div className='repository-success-view'>
-            <h1>{name}</h1>
+            <h1 className='repo-detail-head'>{name}</h1>
+            <p className='repo-detail-description'>{description}</p>
+            <ul className='topics-list'>
+                {
+                    topics.map((topic, index) => (
+                        <li key={topic} className={`${colorClassNames[index % colorClassNames.length]} topics`}>{topic}</li>
+                    ))
+                }
+
+            </ul>
+            <div className="repo-visualize-counts">
+                <div className='counts'>
+                    <FaStar color='#fbbf24' />
+                    <p>{stargazersCount}</p>
+                </div>
+                <div className='counts'>
+                    <FaEye color='#94a3bb' />
+                    <p>{forksCount}</p>
+                </div>
+                <div className='counts'>
+                    <PiGitBranchBold color='#94a3bb' size={20} />
+                    <p>{watchersCount}</p>
+                </div>
+            </div>
+
+            <div className="count-container">
+                <div className='count'>
+                    <h1>Commits Count</h1>
+                    <p>{commits}</p>
+                </div>
+                <div className='count'>
+                    <h1>Issues Count</h1>
+                    <p>{issuesCount}</p>
+                </div>
+            </div>
+
+            <div className="contributors-container">
+                <h1>Contributors:</h1>
+                <p>{contributors.length} Members</p>                
+                {
+                    contributors.length < 5 ?
+                        <ul className="contributors-avatars">
+                            {
+                                contributors.map(each => (
+                                    <li key={each}>
+                                        <img src={each.avatarUrl}  alt="avatar"/>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                        : <ul className="contributors-avatars">
+                            {
+                                contributors.slice(0,5).map(each => (
+                                    <li key={each}>
+                                        <img src={each.avatarUrl}  alt="avatar"/>
+                                    </li>
+                                ))
+                            }
+                            <li key="etc">
+                                <div className="etc-image">+{contributors.length - 5}</div>
+                            </li>
+                        </ul>
+                }
+            </div>
         </div>
     }
 
-    const failureView = () => {
-        return <div className='failure-view'>
-            <img src='https://res.cloudinary.com/dfomcgwro/image/upload/v1771441459/Empty_Box_Illustration_1_dj86g2.png' alt="failure" />
-            <h1>No Data Found</h1>
-            <p>Github Username is empty, please provide a valid username for Repositories</p>
-            <Link to="/"><button>Go to Home</button></Link>
-        </div>
-    }
+const failureView = () => {
+    return <div className='failure-view'>
+        <img src='https://res.cloudinary.com/dfomcgwro/image/upload/v1771441459/Empty_Box_Illustration_1_dj86g2.png' alt="failure" />
+        <h1>No Data Found</h1>
+        <p>Github Username is empty, please provide a valid username for Repositories</p>
+        <Link to="/"><button>Go to Home</button></Link>
+    </div>
+}
 
-    const renderContent = () => {
-        switch (progress) {
-            case apiProgress.loading:
-                return renderLoading()
-            case apiProgress.failure:
-                return failureView()
-            case apiProgress.offline:
-                return offlineView()
-            case apiProgress.success:
-                return successView()
-            default:
-                return null
-        }
+const renderContent = () => {
+    switch (progress) {
+        case apiProgress.loading:
+            return renderLoading()
+        case apiProgress.failure:
+            return failureView()
+        case apiProgress.offline:
+            return offlineView()
+        case apiProgress.success:
+            return successView()
+        default:
+            return null
     }
+}
 
-    return (
-        <div>
-            <Header activeId="repositories" />
+return (
+    <div>
+        <Header activeId="repositories" />
+        <div className="repo-details-content-container">
             {renderContent()}
         </div>
-    )
+    </div>
+)
 }
 
 export default RepositoriesDetails

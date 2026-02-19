@@ -13,7 +13,7 @@
 }
 
 .repo-description {
-    color: #fff;
+    color: #F8FAFC;
     margin-block: 10px;
 }
 
@@ -58,7 +58,7 @@
 .topics-list{
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 10px;
     margin-block: 10px;
 }
 
@@ -77,5 +77,20 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+    .topics{
+        padding: 5px 10px;
+        font-size: 12px;
+        margin: 0;
+    }
+    .repo-name{
+        font-size: 18px;
+    }
+    .repo-description{
+        font-size: 15px;
+    }
+
+    .counts{
+        font-size: 15px;
     }
 }
