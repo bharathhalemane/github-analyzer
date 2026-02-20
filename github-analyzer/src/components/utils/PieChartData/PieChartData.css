@@ -1,0 +1,9 @@
+.tooltip{
+    display: flex;
+    flex-wrap: wrap;
+}
+@media(max-width: 480px){
+    .tooltip{
+        display: none;
+    }
+}

@@ -219,7 +219,7 @@ const RepositoriesDetails = ({ username }) => {
             </div>
 
             <div className="pieChart-list">
-                {/* <PieChartData owner={username} repo={repoName} /> */}
+                <PieChartData raw={[languages]}/>
             </div>
         </div>
     }
