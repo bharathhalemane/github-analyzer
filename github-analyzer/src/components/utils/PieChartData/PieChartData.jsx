@@ -55,7 +55,10 @@ const PieChartData = ({ raw }) => {
 
   return (
     <div className="responsive-container">
-      <PieChart width={250} height={300} className="">
+      <PieChart width={250} height={300} className="pie-chart" style={{
+        border: "none",
+        outline:"transparent"
+      }}>
         <Pie
           data={data}
           dataKey="value"
@@ -64,9 +67,10 @@ const PieChartData = ({ raw }) => {
           cy="50%"
           outerRadius={100}
           innerRadius={70}
+          stroke="none"
         >
           {data.map((entry, index) => (
-            <Cell key={index} fill={getColor(index)} />
+            <Cell key={index} fill={getColor(index)} stroke="none"/>
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip/>} />

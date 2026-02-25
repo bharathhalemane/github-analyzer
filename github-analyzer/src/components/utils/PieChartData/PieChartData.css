@@ -4,6 +4,6 @@
   gap: 40px;
 }
 
-.tooltip{
-    
+.responsive-container *{
+    outline: none !important;
 }
