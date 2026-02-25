@@ -1,14 +1,5 @@
-.tooltip{
-    display: flex;
-    flex-wrap: wrap;
-}
-@media(max-width: 480px){
-    .tooltip{
-        display: none;
-    }
-}
-
-.pie-chart-container{
-    display: flex;
-    
+.responsive-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
 }

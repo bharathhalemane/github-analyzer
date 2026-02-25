@@ -219,6 +219,7 @@ const RepositoriesDetails = ({ username }) => {
             </div>
 
             <div className="pieChart-list">
+                <h1>Languages</h1>
                 <PieChartData raw={[languages]}/>
             </div>
         </div>
