@@ -5,11 +5,12 @@ import Repositories from './components/Pages/Repositories/Repositories'
 import RepositoriesDetails from './components/Pages/RepositoriesDetails/RepositoriesDetails'
 import NotFound from './components/Pages/NotFound/NotFound'
 import { useState } from 'react'
+import Header from './components/utils/Header/Header'
 
 function App() {
   const [username, setUsername] = useState()
   return (
-    <Router>
+    <Router>      
       <Routes>
         <Route path="/" element={<Home setUsername={setUsername} username={username} />} />
         <Route path="/repositories" element={<Repositories username={username} />} />

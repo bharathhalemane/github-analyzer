@@ -1,8 +1,10 @@
 .desktop-nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between !important;
+    align-items: center;
     padding: 20px 50px;
-    color: #fff;
+    color: #fff;    
+    
 }
 
 ul {
@@ -52,6 +54,6 @@ ul {
     .mobile-links{
         flex-direction: column;
         gap: 10px;
-        padding: 0 20px;
+        padding: 10px 20px;
     }
 }

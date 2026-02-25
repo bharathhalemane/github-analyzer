@@ -27,15 +27,15 @@ const CustomLegend = ({ payload }) => (
   </div>
 )
 
-const CustomTooltip = ({ active, payload }) => {
+const CustomTooltip = ({ active, payload}) => {
   if (active && payload && payload.length) {
     return (
-      <div style={{
+      <div className="tooltip" style={{
         background: "#1f2937",
         color: "#fff",
         padding: "10px 14px",
         borderRadius: "8px",
-        border: "1px solid #374151"
+        border: "1px solid #374151",
       }}>
         <p>{payload[0].name}</p>
         <p>Value: {payload[0].value}</p>
@@ -55,7 +55,7 @@ const PieChartData = ({ raw }) => {
 
   return (
     <div className="responsive-container">
-      <PieChart width={300} height={300}>
+      <PieChart width={250} height={300} className="">
         <Pie
           data={data}
           dataKey="value"
@@ -69,7 +69,7 @@ const PieChartData = ({ raw }) => {
             <Cell key={index} fill={getColor(index)} />
           ))}
         </Pie>
-        <Tooltip content={<CustomTooltip/>}/>
+        <Tooltip content={<CustomTooltip/>} />
       </PieChart>
       <CustomLegend payload={data.map((d, i) => ({
         value: d.name,
